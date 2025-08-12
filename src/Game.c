@@ -13,17 +13,74 @@
 #endif
 
 void updateGame(gConfig * gConf){
+    
+    memcpy(gConf->gArrBuff, gConf->gArr, sizeof(int[gConf->HCCOUNT][gConf->VCCOUNT]));
+    if(gConf->gameStarted){
+        for (int i = 0; i < gConf->VCCOUNT; i++){
+            for (int j = 0; j < gConf->HCCOUNT; j++){
+
+                
+                    int count = 0;  //Neighbour count
+                    int topIdx = (i - 1 + gConf->VCCOUNT) % gConf->VCCOUNT;
+                    int leftIdx = (j - 1 + gConf->HCCOUNT) % gConf->HCCOUNT;
+                    int rightIdx = (j + 1) % gConf->HCCOUNT;
+                    int bottomIdx = (i + 1) % gConf->VCCOUNT;
+
+                    // Left X pos with safety
+                    if (AT(gConf, i, leftIdx))
+                    {
+                        count++;
+                    }
+                    if(AT(gConf, topIdx, leftIdx)){
+                        count++;
+                    }
+                    if(AT(gConf, topIdx, j)){
+                        count++;
+                    }
+                    if(AT(gConf, topIdx, rightIdx)){
+                        count++;
+                    }
+                    if(AT(gConf, i, rightIdx)){
+                        count++;
+                    }
+                    if(AT(gConf, bottomIdx, rightIdx)){
+                        count++;
+                    }
+                    if(AT(gConf, bottomIdx, j))
+                        count++;
+                    if(AT(gConf, bottomIdx, leftIdx))
+                        count++;
+
+                    if(AT(gConf, i, j) == 1){
+                        
+                        
+                        if(count < 2){
+                            OFFBUF(gConf, i, j);
+                        }else if(count > 3){
+                            OFFBUF(gConf, i, j);
+                        }
+                        // printf("i: %d, j: %d, \n", j * gConf->CELLSIZE, i * gConf->CELLSIZE);
+                    }else if(count == 3){
+                        ONBUF(gConf, i, j);
+                    }
+            }
+                
+        }
+    }
+    memcpy(gConf->gArr, gConf->gArrBuff, sizeof(int[gConf->HCCOUNT][gConf->VCCOUNT]));
+
+}
+
+void drawGame(gConfig * gConf){
     for (int i = 0; i < gConf->VCCOUNT; i++){
         for (int j = 0; j < gConf->HCCOUNT; j++){
             if(AT(gConf, i, j) == 1){
                 DrawRectangle(j * gConf->CELLSIZE, i * gConf->CELLSIZE,
-                              gConf->CELLSIZE, gConf->CELLSIZE, BLACK);
-                //printf("i: %d, j: %d, \n", j * gConf->CELLSIZE, i * gConf->CELLSIZE);
+                            gConf->CELLSIZE, gConf->CELLSIZE, BLACK);
             }
         }
     }
 }
-
 int initGame(gConfig * gConf, int WIDTH, int HEIGHT, int CELLSIZE){
     gConf->WIDTH = WIDTH;
     gConf->HEIGHT = HEIGHT;

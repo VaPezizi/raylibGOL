@@ -8,6 +8,9 @@
 #define ON(g, i, j) ((g)->gArr[(size_t)(i) * (g)->HCCOUNT + (j)] = 1)
 #define OFF(g, i, j) ((g)->gArr[(size_t)(i) * (g)->HCCOUNT + (j)] = 0)
 
+#define ONBUF(g, i, j) ((g)->gArrBuff[(size_t)(i) * (g)->HCCOUNT + (j)] = 1)
+#define OFFBUF(g, i, j) ((g)->gArrBuff[(size_t)(i) * (g)->HCCOUNT + (j)] = 0)
+
 typedef struct gConfig{
 	int WIDTH;
 	int HEIGHT;
@@ -23,5 +26,6 @@ typedef struct gConfig{
 void updateGame(gConfig * gConf);
 int initGame(gConfig * gConf, int WIDTH, int HEIGHT, int CELLSIZE);
 int closeGame(gConfig *gConf);
+void drawGame(gConfig *gConf);
 
 #endif
