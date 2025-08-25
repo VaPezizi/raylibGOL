@@ -14,6 +14,8 @@ int main(){
 
 	initGame(&gconf, WIDTH, HEIGHT, CELLSIZE);
 
+	int FPS = 10;
+
 	/*
 	ON(&gconf, 50, 50);
 	ON(&gconf, 51, 50);
@@ -22,7 +24,7 @@ int main(){
 	*/
 	InitWindow(WIDTH, HEIGHT, "Game of life");
 	ClearBackground(WHITE);
-	SetTargetFPS(10);
+	SetTargetFPS(FPS);
 
 	while (!WindowShouldClose())
 	{
@@ -31,9 +33,9 @@ int main(){
 
 		if(!gconf.gameStarted){
 			DrawText("PAUSED", gconf.WIDTH - 100, 100, 10 ,BLACK);
-			if (IsMouseButtonPressed(0))
+			if (IsMouseButtonDown(0))
 			{
-				puts("MORO");
+				//puts("MORO");
 				ON(&gconf, (int)mousePos.y / CELLSIZE, (int)mousePos.x / CELLSIZE);
 			}
 			else if (IsMouseButtonPressed(1))
@@ -43,6 +45,14 @@ int main(){
 		}
 		if(IsKeyPressed('P')){
 			gconf.gameStarted = (gconf.gameStarted != 0 ? 0 : 1);
+		}
+		if(IsKeyPressed(KEY_UP)){
+			FPS+=10;	
+			SetTargetFPS(FPS);
+		}
+		if(IsKeyPressed(KEY_DOWN) && FPS > 11){
+			FPS-=10;	
+			SetTargetFPS(FPS);
 		}
 
 		updateGame(&gconf);
