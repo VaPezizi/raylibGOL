@@ -8,6 +8,7 @@
 #ifndef _STD
 #define _STD
 #include <stdio.h>
+#include <time.h>
 #include <stdlib.h>
 #include <memory.h>
 #endif
@@ -75,8 +76,11 @@ void drawGame(gConfig * gConf){
     for (int i = 0; i < gConf->VCCOUNT; i++){
         for (int j = 0; j < gConf->HCCOUNT; j++){
             if(AT(gConf, i, j) == 1){
+		Color color = BLACK;
+		if(gConf->colorMode)
+			color = (Color) {rand() % 256, rand() % 256, rand() % 256, 255};	//Random color	
                 DrawRectangle(j * gConf->CELLSIZE, i * gConf->CELLSIZE,
-                            gConf->CELLSIZE, gConf->CELLSIZE, BLACK);
+                            gConf->CELLSIZE, gConf->CELLSIZE, color);
             }
         }
     }
@@ -89,6 +93,9 @@ int initGame(gConfig * gConf, int WIDTH, int HEIGHT, int CELLSIZE){
     gConf->HCCOUNT = WIDTH / CELLSIZE;
     gConf->VCCOUNT = HEIGHT / CELLSIZE;
     gConf->CELLCOUNT = gConf->HCCOUNT + gConf->VCCOUNT;
+    gConf->colorMode = 0;
+
+    srand(time(NULL));
 
     size_t allocSize = sizeof(int[gConf->HCCOUNT][gConf->VCCOUNT]);
 

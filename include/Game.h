@@ -21,6 +21,7 @@ typedef struct gConfig{
 	int *gArr;
 	int *gArrBuff;
 	int gameStarted;
+	int colorMode;
 } gConfig;
 
 void updateGame(gConfig * gConf);

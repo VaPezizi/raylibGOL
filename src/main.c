@@ -43,6 +43,8 @@ int main(){
 				OFF(&gconf, (int)mousePos.y / CELLSIZE, (int)mousePos.x / CELLSIZE);
 			}
 		}
+		if(IsKeyPressed('C'))
+			gconf.colorMode = !gconf.colorMode;
 		if(IsKeyPressed('P')){
 			gconf.gameStarted = (gconf.gameStarted != 0 ? 0 : 1);
 		}
