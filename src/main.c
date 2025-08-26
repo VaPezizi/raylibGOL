@@ -31,18 +31,27 @@ int main(){
 		mousePos = GetMousePosition();
 
 
+		if (IsMouseButtonDown(0))
+		{
+			//puts("MORO");
+			ON(&gconf, (int)mousePos.y / CELLSIZE, (int)mousePos.x / CELLSIZE);
+		}
+		else if (IsMouseButtonPressed(1))
+		{
+			OFF(&gconf, (int)mousePos.y / CELLSIZE, (int)mousePos.x / CELLSIZE);
+		}
+
 		if(!gconf.gameStarted){
 			DrawText("PAUSED", gconf.WIDTH - 100, 100, 10 ,BLACK);
-			if (IsMouseButtonDown(0))
-			{
-				//puts("MORO");
-				ON(&gconf, (int)mousePos.y / CELLSIZE, (int)mousePos.x / CELLSIZE);
-			}
-			else if (IsMouseButtonPressed(1))
-			{
-				OFF(&gconf, (int)mousePos.y / CELLSIZE, (int)mousePos.x / CELLSIZE);
-			}
+
+
+
+		}else{
+
+			updateGame(&gconf);
 		}
+
+
 		if(IsKeyPressed('C'))
 			gconf.colorMode = !gconf.colorMode;
 		if(IsKeyPressed('P')){
@@ -57,7 +66,7 @@ int main(){
 			SetTargetFPS(FPS);
 		}
 
-		updateGame(&gconf);
+
 		BeginDrawing();
 
 		ClearBackground(WHITE);
